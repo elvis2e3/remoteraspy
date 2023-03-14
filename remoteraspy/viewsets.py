@@ -1,9 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+import os
+os.environ['DISPLAY'] = ":0.0"
 import pyautogui as remote
 import time
-import os
 from PIL import Image
 from remoteraspy.settings import BASE_DIR
 
@@ -13,12 +14,6 @@ class RemoteViewSet(APIView):
    # @staticmethod
     def get(self, request):
         width, height = remote.size()
-        #remote.moveTo(150,25)
-        #remote.click()
-        #remote.moveTo(475, 450)
-        #time.sleep(3)
-        #remote.doubleClick()
-        #self.screenshot()
         return Response(
             {
                 'width': width,
@@ -65,5 +60,15 @@ def click(request):
 @api_view(['GET'])
 def double_click(request):
     remote.doubleClick()
+    return Response({'status': True})
+
+@api_view(['GET'])
+def scroll_up(request, move_size):
+    remote.scroll(move_size)
+    return Response({'status': True})
+
+@api_view(['GET'])
+def scroll_down(request, move_size):
+    remote.scroll(move_size * -1)
     return Response({'status': True})
 
