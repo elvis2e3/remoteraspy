@@ -44,7 +44,9 @@ def screenshot(request):
     remote.screenshot('static/' + name)
     im = Image.open(str(BASE_DIR) + '/static/' + name)
     im=im.rotate(90, expand=True)
-    im.save(str(BASE_DIR) + '/static/' + name)
+    x, y = im.size
+    im = im.resize((int(x * 0.4), int(y * 0.4)))
+    im.save(str(BASE_DIR) + '/static/' + name, quality=1)
     return Response({'file_name': name})
 
 @api_view(['GET',])
